@@ -14,15 +14,18 @@ let app = express();
 let corsOptions = {
   origin: 'http://example.com',
 };
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+
 import router from './api/api.js';
 app.use(router);
+
 
 app.use(notFound);
 app.use(errorHandler);
@@ -38,7 +41,7 @@ module.exports = {
         if(err) {throw err;}
 
         alreadyRunning = true;
-        debug(`Server is up on port ${port}`);
+        console.log(`Server is up on port ${port}`);
       });
     }
     else {
