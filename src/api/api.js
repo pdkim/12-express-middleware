@@ -22,40 +22,27 @@ let sendJSON = (res, data) => {
 
 //GET ONE
 router.get('/api/v1/:model/:id', (req, res, next) => {
-  if (req.params.id) {
-    req.model.findOne(req.params.id)
-      .then(data => sendJSON(res, data))
-      .catch(next);
-  }
+  req.model.findOne(req.params.id)
+    .then(data => sendJSON(res, data))
+    .catch(next);
 });
 
 //GET ALL
-router.get('/api/v1/:mmdel', (req, res, next) => {
-  debug('Get all');
-  if (req.params.body === undefined) {
-    res.status(400).send('Bad Request');
-  }
-  else {
-    req.model.fetchAll()
-      .then(data => sendJSON(res, data))
-      .catch(next);
-  }
+router.get('/api/v1/:model', (req, res, next) => {
+  req.model.fetchAll()
+    .then(data => sendJSON(res, data))
+    .catch(next);
 });
 
 //DELETE
 router.delete('/api/v1/:model/:id', (req, res, next) => {
-  if (req.params.id === '' || !req.params.id) {
-    res.status(400).send('Bad Request');
-  }
-  else {
-    Worker.deleteOne(req.params.id)
-      .then(() => {
-        res.statusCode = 204;
-        res.statusMessage = 'OK';
-        res.end();
-      })
-      .catch(next);
-  }
+  Worker.deleteOne(req.params.id)
+    .then(() => {
+      res.statusCode = 204;
+      res.statusMessage = 'OK';
+      res.end();
+    })
+    .catch(next);
 });
 
 //POST
@@ -68,6 +55,19 @@ router.post('/api/v1/:model', (req, res, next) => {
 
     record.save()
       .then(data => sendJSON(res, data))
+      .catch(next);
+  }
+});
+
+router.put('/api/v1/:model/:id', (req, res, next) => {
+  if (req.params.body === '' || req.params.body === undefined) {
+    res.status(400).send('Bad Request');
+  }
+  else {
+    Worker.put(req.params.id)
+      .then(() => {
+        res.status(200).send(JSON.stringify(req.body));
+      })
       .catch(next);
   }
 });

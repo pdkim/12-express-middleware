@@ -32,6 +32,7 @@
     "jest": "^23.1.0",
     "morgan": "^1.9.0",
     "require-dir": "^1.0.0",
+    "require-directory": "^2.1.1",
     "superagent": "^3.8.3"
   }
 }

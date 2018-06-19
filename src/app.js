@@ -11,8 +11,12 @@ import notFound from './middleware/404.js';
 
 let app = express();
 
+/**
+ * @type {{origin: string}}
+ */
+
 let corsOptions = {
-  origin: 'http://example.com',
+  origin: '*',
 };
 
 app.use(cors(corsOptions));
@@ -50,7 +54,7 @@ module.exports = {
   },
 
   stop: () => {
-    server.close( () => {
+    server && server.close( () => {
       alreadyRunning = false;
       console.log('Server is closed');
     });

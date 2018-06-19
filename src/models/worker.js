@@ -34,6 +34,7 @@ class Worker {
   }
 
   static findOne(id) {
+    console.log(id);
     return storage.get(id);
   }
 
@@ -44,6 +45,10 @@ class Worker {
 
   static deleteOne(id) {
     return storage.delete(id);
+  }
+
+  static put(id) {
+    return storage.put(id);
   }
 
 }

@@ -6,8 +6,8 @@
  * @returns {*}
  */
 
-import requireAll from 'require-dir';
-const models = requireAll('../models');
+import requireAll from 'require-directory';
+const models = requireAll(module, '../models');
 
 export default (req, res, next) => {
   try {
