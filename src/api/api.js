@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('api');
+// const debug = require('debug')('api');
 
 import express from 'express';
 const router = express.Router();
@@ -23,15 +23,22 @@ let sendJSON = (res, data) => {
 //GET ONE
 router.get('/api/v1/:model/:id', (req, res, next) => {
   req.model.findOne(req.params.id)
-    .then(data => sendJSON(res, data))
+    .then(data => {
+      sendJSON(res, data);
+    })
     .catch(next);
 });
 
 //GET ALL
 router.get('/api/v1/:model', (req, res, next) => {
-  req.model.fetchAll()
-    .then(data => sendJSON(res, data))
-    .catch(next);
+  if (req.params.body === undefined) {
+    res.status(400).send('Bad Request');
+  }
+  else {
+    req.model.fetchAll()
+      .then(data => sendJSON(res, data))
+      .catch(next);
+  }
 });
 
 //DELETE

@@ -15,23 +15,23 @@ describe('API module should', () => {
     app.stop();
   });
 
-  it('return 500 status code when passed a non-registered route', () => {
+  it('return 404 status code when passed a non-registered route', () => {
     return superagent
-      .get('http://localhost:3002/api/v1/pokemon')
-      .catch(res => {
-        expect(res.status).toBe(500);
-      });
-  });
-
-  it('return 404 status code when an invalid id is passed', () => {
-    return superagent
-      .get('http://localhost:3002/api/v1/worker/1223')
+      .get('http://localhost:3002/pokemon')
       .catch(res => {
         expect(res.status).toBe(404);
       });
   });
 
-  xit('return 400 status code when no id is entered', (done) => {
+  it('return 500 status code when an invalid id is passed', () => {
+    return superagent
+      .get('http://localhost:3002/api/v1/worker/1223')
+      .catch(res => {
+        expect(res.status).toBe(500);
+      });
+  });
+
+  it('return 400 status code when no id is entered', (done) => {
     superagent
       .get('http://localhost:3002/api/v1/worker')
       .catch(res => {
@@ -41,7 +41,7 @@ describe('API module should', () => {
       });
   });
 
-  xit('return 200 status code when a valid id is entered', () => {
+  it('return 200 status code when a valid id is entered', () => {
     let id;
     return superagent
       .post('http://localhost:3002/api/v1/worker/')
