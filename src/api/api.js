@@ -31,14 +31,9 @@ router.get('/api/v1/:model/:id', (req, res, next) => {
 
 //GET ALL
 router.get('/api/v1/:model', (req, res, next) => {
-  if (req.params.body === undefined) {
-    res.status(400).send('Bad Request');
-  }
-  else {
-    req.model.fetchAll()
-      .then(data => sendJSON(res, data))
-      .catch(next);
-  }
+  req.model.fetchAll()
+    .then(data => sendJSON(res, data))
+    .catch(next);
 });
 
 //DELETE
@@ -54,16 +49,11 @@ router.delete('/api/v1/:model/:id', (req, res, next) => {
 
 //POST
 router.post('/api/v1/:model', (req, res, next) => {
-  if (req.body.firstName === undefined && req.body.lastName === undefined && req.body.hourlyWage === undefined) {
-    res.status(400).send('Bad Request');
-  }
-  else {
-    let record = new req.model(req.body);
+  let record = new req.model(req.body);
 
-    record.save()
-      .then(data => sendJSON(res, data))
-      .catch(next);
-  }
+  record.save()
+    .then(data => sendJSON(res, data))
+    .catch(next);
 });
 
 router.put('/api/v1/:model/:id', (req, res, next) => {

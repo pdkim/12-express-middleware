@@ -1,25 +1,93 @@
 'use strict';
 
-jest.mock('require-dir');
+import superAgent from 'superagent';
 
-import modelFinder from '../../src/middleware/models.js';
+import app from '../../src/app.js';
 
-describe('Middelware module should', () => {
+const apiUrl = 'http://localhost:3003/api/v1/worker';
+
+
+describe('the application should', () => {
+
+  beforeEach(() => {
+    app.start(3003);
+  });
   
-  xit('throw an error if a vaid model is not present', () => {
-    let req = {};
-    let res = {};
-    let next = () => {};
-    expect(() => {
-      modelFinder(req, res, next);
-    }).toThrow();
+  afterEach(() => {
+    app.stop();
   });
 
-  xit('return an object/function when a valid model is requested', () => {
-    let req = {params: {model:'work please'}};
-    let res = {};
-    let next = () => {};
-    modelFinder(res, req, next);
-    expect(req.model).toBeDefined();
+  it('return an empty object', () => {
+
+    return superAgent
+      .get(apiUrl)
+      .then(results => {
+        const worker = JSON.parse(results.text);
+        expect(worker).toEqual({});
+        
+      });
+
   });
+
+  it('create a new worker', (done) => {
+
+    const newWorker = {
+      'firstName' : 'Phil',
+      'lastName' : 'Kim',
+      'hourlyWage' : '100',
+    };
+
+    superAgent.post(apiUrl).send(newWorker).then(results => {
+
+      const worker = JSON.parse(results.text);
+      expect(worker.firstName).toBe('Phil');
+      done();
+    });
+
+  });
+
+  it('retrieve a single worker', () => {
+
+    const newWorker = {
+      'firstName' : 'Phil',
+      'lastName' : 'Kim',
+      'hourlyWage' : '100',
+    };
+
+    return superAgent.post(apiUrl).send(newWorker).then(results => {
+
+      const postedWorker = JSON.parse(results.text);
+
+      return superAgent.get(apiUrl + '/' + postedWorker.id).then(results => {
+        const dataWorker = JSON.parse(results.text);
+        expect(dataWorker.firstName).toBe('Phil');
+      });
+    });
+  });
+
+  it('change content to new values', () => {
+    
+    const newWorker = {
+      'firstName' : 'Phil',
+      'lastName' : 'Kim',
+      'hourlyWage' : '100',
+    };
+
+    const betterWorker = {
+      'firstName' : 'JB',
+      'lastName' : 'Tellez',
+      'hourlyWage' : 'over 9000!!!',
+    };
+    
+    return superAgent.post(apiUrl).send(newWorker).then(results => {
+      
+      const postedWorker = JSON.parse(results.text);
+
+      return superAgent.put(apiUrl + '/' + postedWorker.id).send(betterWorker).then(results => {
+        const dataWorker = JSON.parse(results.text);
+        expect(dataWorker.firstName).toBe('JB');
+      });
+    });
+  });
+
 });

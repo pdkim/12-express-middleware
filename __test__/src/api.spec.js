@@ -2,8 +2,8 @@
 
 import superagent from 'superagent';
 
-// import app from '../../src/api/api.js';
-const app = require('../../src/app.js');
+import app from '../../src/app.js';
+
 
 describe('API module should', () => {
 
@@ -31,16 +31,6 @@ describe('API module should', () => {
       });
   });
 
-  it('return 400 status code when no id is entered', (done) => {
-    superagent
-      .get('http://localhost:3002/api/v1/worker')
-      .catch(res => {
-        expect(res.status).toBe(400);
-        expect(res.response.text).toEqual('Bad Request');
-        done();
-      });
-  });
-
   it('return 200 status code when a valid id is entered', () => {
     let id;
     return superagent
@@ -62,16 +52,8 @@ describe('API module should', () => {
       .catch(res => console.error('post failed at ', res));
   });
 
-  xit('return 400 status code when attempting to post without content', () => {
-    return superagent
-      .post('http://localhost:3002/api/v1/worker/')
-      .catch(res => {
-        expect(res.status).toBe(400);
-        expect(res.response.text).toBe('Bad Request');
-      });
-  });
 
-  xit('return 200 status code when posting with content', () => {
+  it('return 200 status code when posting with content', () => {
     return superagent
       .post('http://localhost:3002/api/v1/worker/')
       .send({
