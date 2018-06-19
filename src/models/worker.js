@@ -47,8 +47,8 @@ class Worker {
     return storage.delete(id);
   }
 
-  static put(id) {
-    return storage.put(id);
+  static putThis(id, data) {
+    return storage.put(id, data);
   }
 
 }

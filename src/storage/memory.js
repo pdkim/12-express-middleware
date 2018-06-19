@@ -38,8 +38,8 @@ storage.delete = (id) => {
 
 storage.put = (id, data) => {
   return new Promise((resolve, reject) => {
-    if(data) {
-      database[data.id] = data;
+    if(database[id]) {
+      database[id] = data;
       resolve(database[id]);
     }
     else{reject(`${id} not found`);}

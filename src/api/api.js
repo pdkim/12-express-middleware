@@ -36,7 +36,7 @@ router.get('/api/v1/:model', (req, res, next) => {
 
 //DELETE
 router.delete('/api/v1/:model/:id', (req, res, next) => {
-  Worker.deleteOne(req.params.id)
+  req.model.deleteOne(req.params.id)
     .then(() => {
       res.statusCode = 204;
       res.statusMessage = 'OK';
@@ -60,16 +60,13 @@ router.post('/api/v1/:model', (req, res, next) => {
 });
 
 router.put('/api/v1/:model/:id', (req, res, next) => {
-  if (req.params.body === '' || req.params.body === undefined) {
-    res.status(400).send('Bad Request');
-  }
-  else {
-    Worker.put(req.params.id)
-      .then(() => {
-        res.status(200).send(JSON.stringify(req.body));
-      })
-      .catch(next);
-  }
+  req.model.putThis(req.params.id, req.body)
+    .then((data) => {
+      sendJSON(res, data);
+    })
+    .catch(() => {
+      next();
+    });
 });
 
 
