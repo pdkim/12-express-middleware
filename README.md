@@ -1,50 +1,32 @@
-![cf](https://i.imgur.com/7v5ASc8.png) 12: Express Middleware
-======
+##Travis:
+[![Build Status](https://travis-ci.com/pdkim/12-express-middleware.svg?branch=pk12)](https://travis-ci.com/pdkim/12-express-middleware)
 
-## Submission Instructions
-* Work in a fork of this repository
-* Work in a branch on your fork
-* Create a PR to your master from your working branch.
-* Ensure that your repository/branch is connected to travis-ci.com
-* Ensure that your repository/branch is connected to a dyno at heroku.com
-* Heroku and Travis should pick you up and deploy
-* Submit on canvas:
-  * a question and observation
-  * how long you spent
-  * link to your pull request
-  * link to your build at travis-ci URL
-  * Heroku Server URL
+##Heroku:
+https://pk-12-express-middleware.herokuapp.com/
 
-## Configuration 
-Configure the root of your repository with the following files and directories. Thoughfully name and organize any aditional configuration or module files.
-* **README.md** - contains documentation
-* **.env** - contains env variables (should be git ignored)
-* **.gitignore** - contains a [robust](http://gitignore.io) `.gitignore` file 
-* **.eslintrc** - contains the course linter configuratoin
-* **.eslintignore** - contains the course linter ignore configuration
-* **.travis.yml** - contains the course linter ignore configuration
-* **package.json** - contains npm package config
-  * create a `lint` script for running eslint (eslint **/*.js)
-  * create a `test` script for running tests
-  * create a `start` script for running your server
-* **index.js** - the entry point for your application
-* **src/** - contains your core application files and folders
-* **src/app.js** - (or main.js) contains your core application bootstrap
-* **src/lib/** - contains module definitions
-* **\_\_test\_\_/** - contains unit tests
+##Github: 
+https://github.com/pdkim/12-express-middleware
 
-## Learning Objectives  
-* students will be able to work with application, router, and 3rd party middleware through the use of express.js
-* students will be able to implement custom middleware through the use of express.js
-* students will be able to create custom routers for a specific resource
 
-#### Feature Tasks
-* create a single resource `express` API that can handle **GET**, **POST**, and **PUT** requests
-	* Choose your own resource, as long as it's not Note or Person 
-* use the `http-errors` module to create new errors and associate them with a proper status code
-* create an `error-middleware` module to handle errors and *use* it in your server file
-* create a `model` module to handle dynamic models and *use* it in your server file
-* create a `cors-middleware` module that will allow for public use of your API
-* create methods for filesystem and memory modules to handle **GET**, **POST**, and **PUT** operations.
-* create a series of `acceptance tests` to test your **GET**, **POST**, and **PUT** routes
-  * **hint:** *you'll want to use the `before` and `after` hooks provided by `jest` in order to create a test note and delete the note after the test has completed*
+##Feature:
+Create a application that routes a GET, POST, and PUT method with models.  This should also use middlewares to connect to errors.
+
+###Intructions:
+1. Go to the github link and clone the repository. You may want to fork prior to cloning the repository.
+2. 'npm install' before running anything.
+3. 'nodemon index.js' to start server.
+4. In postman, have a tab for POST, GET, and PUT at the following url: http://localhost:3000/api/v1/worker
+5. Go to the GET tab and change path to something like http://localhost:3000/pokemon and and press GET.
+    a. You should get a 404 error.
+6. Change your route in GET to the following: http://localhost:3000/api/v1/worker/1111. Press GET.
+    a. You should get a 500 error.
+7. Go to POST tab and select Body > Raw. Copy the following information (you can change values on the right as you like): 
+    {"firstName" : "Phil", "lastName" : "Kim", "hourlyWage" : "100" }
+8. Press POST. You should now recieve a valid object.
+9. Copy the id generated in the POST and switch to the GET tab.
+10. Replace the 1111 in step 6 with the new id and press GET.
+    a. You should now see the same object created in POST.
+11. Go to the PUT tab and paste the id in the url. Be sure to include /before pasting the id.
+12. In the Body > Raw, change the content to something like the following:
+    {"firstName" : "JB", "lastName" : "Tellez", "hourlyWage" : "1000" }
+12. Press PUT. You should now get an updated body for the same id.
